@@ -7,7 +7,7 @@ using System.Text;
 
 namespace HasanFurkanFidan.CarRentalProject.DataAccess.Concrete.EntityFrameworkCore
 {
-    public class CarRepository:GenericRepository<Car,RentalContext>,ICarRepository
+    public class BrandRepository:GenericRepository<Brand,RentalContext>,IBrandRepository
     {
     }
 }

@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="IOC\Autofac\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Autofac" Version="6.1.0" />
+    <PackageReference Include="Autofac.Extras.DynamicProxy" Version="6.0.0" />
+    <PackageReference Include="FluentValidation" Version="9.5.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\HasanFurkanFidan.CarRentalProject.Core\HasanFurkanFidan.CarRentalProject.Core.csproj" />
+    <ProjectReference Include="..\HasanFurkanFidan.CarRentalProject.DataAccess\HasanFurkanFidan.CarRentalProject.DataAccess.csproj" />
+    <ProjectReference Include="..\HasanFurkanFidan.CarRentalProject.Entities\HasanFurkanFidan.CarRentalProject.Entities.csproj" />
+  </ItemGroup>
+
+</Project>
