@@ -1,7 +1,10 @@
-﻿using HasanFurkanFidan.CarRentalProject.Core.Utilities.Result;
+﻿using FluentValidation;
+using HasanFurkanFidan.CarRentalProject.Core.Aspects.Autofac.Validation;
+using HasanFurkanFidan.CarRentalProject.Core.Utilities.Result;
 using HasanFurkanFidan.CarRentalProject.DataAccess.Abstract;
 using HasanFurkanFidan.CarRentalProject.Entities.Concrete;
 using HsanFurkanFidan.CarRentalProject.Business.Abstract;
+using HsanFurkanFidan.CarRentalProject.Business.ValidationRules;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -16,9 +19,22 @@ namespace HsanFurkanFidan.CarRentalProject.Business.Concrete
         {
             _carRepository = carRepository;
         }
-        public Task<IResult> AddCarAsync(Car car)
+        [ValidationAspect(typeof(CarValidator))]
+        public async Task<IResult> AddCarAsync(Car car)
         {
-            throw new NotImplementedException();
+            try
+            {
+                await _carRepository.AddAsync(car);
+                return new SuccessResult() { Message = "Car Added Successfully" };
+            }
+            catch (Exception e)
+            {
+                return new ErrorResult()
+                {
+                    Message = $"Product does not added!! because of {e}"
+                };
+             
+            }
         }
 
         public Task<IResult> DeleteAsync(Car car)
@@ -31,7 +47,7 @@ namespace HsanFurkanFidan.CarRentalProject.Business.Concrete
             var data = await _carRepository.GetList(null);
             var result = new SuccessDataResult<List<Car>>(data, "Successfully");
             return result;
-           
+
         }
 
         public Task<IDataResult<Car>> GetCarByIdAsync(int id)

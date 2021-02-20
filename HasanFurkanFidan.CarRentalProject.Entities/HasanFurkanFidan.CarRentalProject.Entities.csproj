@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Adstract\" />
+    <Folder Include="Abstract\" />
   </ItemGroup>
 
   <ItemGroup>
