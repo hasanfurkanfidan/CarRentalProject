@@ -10,11 +10,10 @@ namespace HasanFurkanFidan.CarRentalProject.Core.CossCuttingConcern.Validation.F
         public static void Validate(IValidator validator,object data)
         {
             var context = new ValidationContext<object>(data);
-            var validate = validator.Validate(context);
-
-            if (validate.IsValid)
+            var result = validator.Validate(context);
+            if (!result.IsValid)
             {
-                throw new ValidationException(validate.Errors);
+                throw new ValidationException(result.Errors);
             }
         }
     }

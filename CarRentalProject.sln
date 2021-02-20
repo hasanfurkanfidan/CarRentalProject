@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HasanFurkanFidan.CarRentalP
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HasanFurkanFidan.CarRentalProject.DataAccess", "HasanFurkanFidan.CarRentalProject.DataAccess\HasanFurkanFidan.CarRentalProject.DataAccess.csproj", "{1E82628C-22E1-422B-8FED-E9144F17C691}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HsanFurkanFidan.CarRentalProject.Business", "HsanFurkanFidan.CarRentalProject.Business\HsanFurkanFidan.CarRentalProject.Business.csproj", "{9B2DF629-3387-42EE-B2D9-9A8672EE8A98}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HsanFurkanFidan.CarRentalProject.Business", "HsanFurkanFidan.CarRentalProject.Business\HsanFurkanFidan.CarRentalProject.Business.csproj", "{9B2DF629-3387-42EE-B2D9-9A8672EE8A98}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HasanFurkanFidan.CarRentalProject.Api", "HasanFurkanFidan.CarRentalProject.Api\HasanFurkanFidan.CarRentalProject.Api.csproj", "{5D340A34-3A98-4655-8065-4D94B71D92F4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{9B2DF629-3387-42EE-B2D9-9A8672EE8A98}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9B2DF629-3387-42EE-B2D9-9A8672EE8A98}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9B2DF629-3387-42EE-B2D9-9A8672EE8A98}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5D340A34-3A98-4655-8065-4D94B71D92F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D340A34-3A98-4655-8065-4D94B71D92F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D340A34-3A98-4655-8065-4D94B71D92F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D340A34-3A98-4655-8065-4D94B71D92F4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -20,21 +20,17 @@ namespace HsanFurkanFidan.CarRentalProject.Business.Concrete
             _carRepository = carRepository;
         }
         [ValidationAspect(typeof(CarValidator))]
-        public async Task<IResult> AddCarAsync(Car car)
+        public IResult AddCarAsync(Car car)
         {
-            try
-            {
-                await _carRepository.AddAsync(car);
-                return new SuccessResult() { Message = "Car Added Successfully" };
-            }
-            catch (Exception e)
-            {
-                return new ErrorResult()
-                {
-                    Message = $"Product does not added!! because of {e}"
-                };
-             
-            }
+            
+                _carRepository.AddAsync(car).Wait();
+
+            
+
+
+            return new SuccessResult() { Message = "Car Added Successfully" };
+
+
         }
 
         public Task<IResult> DeleteAsync(Car car)

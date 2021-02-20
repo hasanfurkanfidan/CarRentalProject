@@ -13,7 +13,7 @@ namespace HsanFurkanFidan.CarRentalProject.Business.Abstract
         Task<IDataResult<Car>> GetCarByIdAsync(int id);
         Task<IDataResult<List<Car>>> GetListByBrandIdAsync(int brandId);
         Task<IDataResult<List<Car>>> GetListByColorIdIdAsync(int colorId);
-        Task<IResult> AddCarAsync(Car car);
+        IResult AddCarAsync(Car car);
         Task<IResult> DeleteAsync(Car car);
         Task<IResult> UpdateAsync(Car car);
 

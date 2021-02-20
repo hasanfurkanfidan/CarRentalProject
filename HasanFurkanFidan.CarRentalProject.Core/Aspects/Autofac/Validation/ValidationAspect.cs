@@ -20,7 +20,7 @@ namespace HasanFurkanFidan.CarRentalProject.Core.Aspects.Autofac.Validation
         {
             var validator = (IValidator)Activator.CreateInstance(validatorType);
             var entityType = validatorType.BaseType.GetGenericArguments()[0];
-            var entities = invocation.Arguments.Where(p => GetType() == entityType);
+            var entities = invocation.Arguments.Where(p => GetType()==entityType);
             foreach (var entity in entities)
             {
                 ValidationTool.Validate(validator,entity);
