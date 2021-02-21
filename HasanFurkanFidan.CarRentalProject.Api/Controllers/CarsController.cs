@@ -1,4 +1,5 @@
-﻿using HasanFurkanFidan.CarRentalProject.Entities.Concrete;
+﻿using HasanFurkanFidan.CarRentalProject.Api.Models;
+using HasanFurkanFidan.CarRentalProject.Entities.Concrete;
 using HsanFurkanFidan.CarRentalProject.Business.Abstract;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -19,14 +20,50 @@ namespace HasanFurkanFidan.CarRentalProject.Api.Controllers
             _carService = carService;
         }
         [HttpPost("add")]
-        public  IActionResult Add(Car car)
+        public async Task<IActionResult> Add(Car car)
         {
-            var result =  _carService.AddCarAsync(car);
+            var result = await _carService.AddCarAsync(car);
             if (result.IsSuccess)
             {
                 return Ok(result);
             }
             return BadRequest(result);
         }
+        [HttpGet("allcars")]
+        public async Task<IActionResult> GetAll()
+        {
+            var result = await _carService.GetAllCarsAsync();
+            return Ok(result);
+        }
+        [HttpPost("remove")]
+        public async Task<IActionResult> Remove(int carId)
+        {
+            var carResult = await _carService.GetCarByIdAsync(carId);
+            var car = carResult.Data;
+            var result =  await _carService.DeleteAsync(car);
+            return Ok(result);
+        }
+        [HttpPost("removelist")]
+        public async Task<IActionResult>RemoveList(CarRemoveRangeIdsModel model)
+        {
+            List<Car> cars = new List<Car>();
+            foreach (var id in model.CarIds)
+            {
+                var carResult = await _carService.GetCarByIdAsync(id);
+                var car = carResult.Data;
+                if (carResult.IsSuccess)
+                {
+                    cars.Add(car);
+                }     
+            }
+            var result = await _carService.RemoveRangeAsync(cars);
+            if (result.IsSuccess)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
+
     }
 }

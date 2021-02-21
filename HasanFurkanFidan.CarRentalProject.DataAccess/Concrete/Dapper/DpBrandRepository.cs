@@ -20,6 +20,11 @@ namespace HasanFurkanFidan.CarRentalProject.DataAccess.Concrete.Dapper
             throw new NotImplementedException();
         }
 
+        public Task DeleteList(List<Brand> entities)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<Brand> Get(Expression<Func<Brand, bool>> expression)
         {
             throw new NotImplementedException();

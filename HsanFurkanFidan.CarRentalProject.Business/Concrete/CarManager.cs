@@ -20,22 +20,16 @@ namespace HsanFurkanFidan.CarRentalProject.Business.Concrete
             _carRepository = carRepository;
         }
         [ValidationAspect(typeof(CarValidator))]
-        public IResult AddCarAsync(Car car)
+        public async Task< IResult> AddCarAsync(Car car)
         {
-            
-                _carRepository.AddAsync(car).Wait();
-
-            
-
-
+            await _carRepository.AddAsync(car);
             return new SuccessResult() { Message = "Car Added Successfully" };
-
-
         }
 
-        public Task<IResult> DeleteAsync(Car car)
+        public async Task<IResult> DeleteAsync(Car car)
         {
-            throw new NotImplementedException();
+            var result = _carRepository.DeleteAsync(car);
+            return new SuccessResult() { Message = "Deleted Successfully" };
         }
 
         public async Task<IDataResult<List<Car>>> GetAllCarsAsync()
@@ -46,9 +40,11 @@ namespace HsanFurkanFidan.CarRentalProject.Business.Concrete
 
         }
 
-        public Task<IDataResult<Car>> GetCarByIdAsync(int id)
+        public async Task<IDataResult<Car>> GetCarByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            var data = await _carRepository.Get(p => p.Id == id);
+            var result = new SuccessDataResult<Car>(data, "Successfully");
+            return result;
         }
 
         public Task<IDataResult<List<Car>>> GetListByBrandIdAsync(int brandId)
@@ -59,6 +55,16 @@ namespace HsanFurkanFidan.CarRentalProject.Business.Concrete
         public Task<IDataResult<List<Car>>> GetListByColorIdIdAsync(int colorId)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<IResult> RemoveRangeAsync(List<Car> cars)
+        {
+            await _carRepository.DeleteList(cars);
+            var result = new SuccessResult()
+            {
+                Message = "List Deleted Successfully"
+            };
+            return result;
         }
 
         public Task<IResult> UpdateAsync(Car car)

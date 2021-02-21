@@ -11,6 +11,7 @@ namespace HasanFurkanFidan.CarRentalProject.Core.DataAccess
     {
         Task<List<TEntity>> GetList(Expression<Func<TEntity, bool>> expression);
         Task<TEntity> Get(Expression<Func<TEntity, bool>> expression);
+        Task DeleteList(List<TEntity> entities);
         Task AddAsync(TEntity entity);
         Task DeleteAsync(TEntity entity);
         Task UpdateAsync(TEntity entity);

@@ -26,6 +26,13 @@ namespace HasanFurkanFidan.CarRentalProject.Core.DataAccess.EntityFrameworkCore
             await context.SaveChangesAsync();
         }
 
+        public async Task DeleteList(List<TEntity> entities)
+        {
+            using var context = new TContext();
+            context.RemoveRange(entities.ToArray());
+            await context.SaveChangesAsync();
+        }
+
         public async Task<TEntity> Get(Expression<Func<TEntity, bool>> expression)
         {
             using var context = new TContext();
