@@ -43,8 +43,13 @@ namespace HsanFurkanFidan.CarRentalProject.Business.Concrete
         public async Task<IDataResult<Car>> GetCarByIdAsync(int id)
         {
             var data = await _carRepository.Get(p => p.Id == id);
-            var result = new SuccessDataResult<Car>(data, "Successfully");
-            return result;
+            if (data!=null)
+            {
+                var result = new SuccessDataResult<Car>(data, "Successfully");
+                return result;
+            }
+            return new ErrorDataResult<Car>(null, "No car received");  
+          
         }
 
         public Task<IDataResult<List<Car>>> GetListByBrandIdAsync(int brandId)
@@ -59,12 +64,34 @@ namespace HsanFurkanFidan.CarRentalProject.Business.Concrete
 
         public async Task<IResult> RemoveRangeAsync(List<Car> cars)
         {
-            await _carRepository.DeleteList(cars);
-            var result = new SuccessResult()
+            try
             {
-                Message = "List Deleted Successfully"
-            };
-            return result;
+                if (cars.Count>0)
+                {
+                    await _carRepository.DeleteList(cars);
+                    var result = new SuccessResult()
+                    {
+                        Message = "List Deleted Successfully!"
+                    };
+                    return result;
+                }
+                return new ErrorResult()
+                {
+                    Message = "No Car Received!"
+                };
+            }
+            catch (Exception ex)
+            {
+
+                var result = new ErrorResult
+                {
+                    Message = $"{ex}"
+                };
+                return result;
+            }
+            
+           
+           
         }
 
         public Task<IResult> UpdateAsync(Car car)

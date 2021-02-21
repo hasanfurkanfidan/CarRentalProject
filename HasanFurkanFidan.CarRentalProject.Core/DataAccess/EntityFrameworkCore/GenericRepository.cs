@@ -29,8 +29,16 @@ namespace HasanFurkanFidan.CarRentalProject.Core.DataAccess.EntityFrameworkCore
         public async Task DeleteList(List<TEntity> entities)
         {
             using var context = new TContext();
-            context.RemoveRange(entities.ToArray());
-            await context.SaveChangesAsync();
+            try
+            {
+                context.RemoveRange(entities.ToArray());
+                await context.SaveChangesAsync();
+
+            }
+            catch (Exception)
+            {
+
+            }
         }
 
         public async Task<TEntity> Get(Expression<Func<TEntity, bool>> expression)
