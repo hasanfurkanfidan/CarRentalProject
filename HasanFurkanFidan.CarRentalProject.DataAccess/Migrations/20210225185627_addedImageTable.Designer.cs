@@ -3,14 +3,16 @@ using HasanFurkanFidan.CarRentalProject.DataAccess.Concrete.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace HasanFurkanFidan.CarRentalProject.DataAccess.Migrations
 {
     [DbContext(typeof(RentalContext))]
-    partial class RentalContextModelSnapshot : ModelSnapshot
+    [Migration("20210225185627_addedImageTable")]
+    partial class addedImageTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -71,15 +73,10 @@ namespace HasanFurkanFidan.CarRentalProject.DataAccess.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("CarId")
-                        .HasColumnType("int");
-
                     b.Property<string>("ImagePath")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CarId");
 
                     b.ToTable("CarImages");
                 });
@@ -118,25 +115,9 @@ namespace HasanFurkanFidan.CarRentalProject.DataAccess.Migrations
                     b.Navigation("Color");
                 });
 
-            modelBuilder.Entity("HasanFurkanFidan.CarRentalProject.Entities.Concrete.CarImage", b =>
-                {
-                    b.HasOne("HasanFurkanFidan.CarRentalProject.Entities.Concrete.Car", "Car")
-                        .WithMany("CarImages")
-                        .HasForeignKey("CarId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Car");
-                });
-
             modelBuilder.Entity("HasanFurkanFidan.CarRentalProject.Entities.Concrete.Brand", b =>
                 {
                     b.Navigation("Cars");
-                });
-
-            modelBuilder.Entity("HasanFurkanFidan.CarRentalProject.Entities.Concrete.Car", b =>
-                {
-                    b.Navigation("CarImages");
                 });
 
             modelBuilder.Entity("HasanFurkanFidan.CarRentalProject.Entities.Concrete.Color", b =>

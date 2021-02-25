@@ -20,6 +20,8 @@ namespace HsanFurkanFidan.CarRentalProject.Business.IOC.Autofac
             builder.RegisterType<CarRepository>().As<ICarRepository>();
             builder.RegisterType<BrandRepository>().As<IBrandRepository>();
             builder.RegisterType<ColorRepository>().As<IColorRepository>();
+            builder.RegisterType<CarImageRepository>().As<ICarImageRepository>();
+            builder.RegisterType<CarImageManager>().As<ICarImageService>();
 
             var assembly = System.Reflection.Assembly.GetExecutingAssembly();
 

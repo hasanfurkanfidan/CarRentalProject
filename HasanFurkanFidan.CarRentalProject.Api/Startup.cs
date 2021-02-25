@@ -34,7 +34,7 @@ namespace HasanFurkanFidan.CarRentalProject.Api
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            app.UseStaticFiles();
             app.UseRouting();
 
             app.UseAuthorization();

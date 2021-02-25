@@ -15,15 +15,17 @@ namespace HsanFurkanFidan.CarRentalProject.Business.Concrete
     public class CarManager : ICarService
     {
         private readonly ICarRepository _carRepository;
-        public CarManager(ICarRepository carRepository)
+        private readonly ICarImageService _carImageService;
+        public CarManager(ICarRepository carRepository,ICarImageService carImageService)
         {
             _carRepository = carRepository;
+            _carImageService = carImageService;
         }
         [ValidationAspect(typeof(CarValidator))]
-        public async Task< IResult> AddCarAsync(Car car)
+        public async Task< IDataResult<Car>> AddCarAsync(Car car)
         {
             await _carRepository.AddAsync(car);
-            return new SuccessResult() { Message = "Car Added Successfully" };
+            return new SuccessDataResult<Car>(car, "added Successfully");
         }
 
         public async Task<IResult> DeleteAsync(Car car)
@@ -37,7 +39,6 @@ namespace HsanFurkanFidan.CarRentalProject.Business.Concrete
             var data = await _carRepository.GetList(null);
             var result = new SuccessDataResult<List<Car>>(data, "Successfully");
             return result;
-
         }
 
         public async Task<IDataResult<Car>> GetCarByIdAsync(int id)

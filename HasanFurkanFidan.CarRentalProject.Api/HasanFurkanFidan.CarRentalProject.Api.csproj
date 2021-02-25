@@ -12,5 +12,9 @@
     <ProjectReference Include="..\HsanFurkanFidan.CarRentalProject.Business\HsanFurkanFidan.CarRentalProject.Business.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\img\Car\" />
+  </ItemGroup>
+
 
 </Project>

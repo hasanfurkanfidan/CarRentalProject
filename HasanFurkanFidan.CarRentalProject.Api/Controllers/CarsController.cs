@@ -1,4 +1,6 @@
 ﻿using HasanFurkanFidan.CarRentalProject.Api.Models;
+using HasanFurkanFidan.CarRentalProject.Core.Utilities.Result;
+using HasanFurkanFidan.CarRentalProject.Entities.Abstract;
 using HasanFurkanFidan.CarRentalProject.Entities.Concrete;
 using HsanFurkanFidan.CarRentalProject.Business.Abstract;
 using Microsoft.AspNetCore.Http;
@@ -12,22 +14,51 @@ namespace HasanFurkanFidan.CarRentalProject.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CarsController : ControllerBase
+    public class CarsController : BaseController
     {
         private readonly ICarService _carService;
-        public CarsController(ICarService carService)
+        private readonly ICarImageService _carImageService;
+        public CarsController(ICarService carService, ICarImageService carImageService)
         {
+            _carImageService = carImageService;
             _carService = carService;
         }
         [HttpPost("add")]
-        public async Task<IActionResult> Add(Car car)
+        public async Task<IActionResult> Add([FromForm] AddCarDto addCarDto)
         {
-            var result = await _carService.AddCarAsync(car);
-            if (result.IsSuccess)
+
+            var results = new List<IResult>();
+            var carResult = await _carService.AddCarAsync(new Car()
             {
-                return Ok(result);
+                BrandId = addCarDto.BrandId,
+                ColorId = addCarDto.ColorId,
+                DailyPrice = addCarDto.DailyPrice,
+                Description = addCarDto.Description,
+            });
+            results.Add(carResult);
+            if (addCarDto.Images.Count > 0)
+            {
+                foreach (var image in addCarDto.Images)
+                {
+                    var pathStream = AddImage(image);
+                    var imageResult = _carImageService.AddImages(new CarImage()
+                    {
+                        CarId = carResult.Data.Id,
+                        ImagePath = pathStream.Path
+                    });
+                    results.Add(imageResult);
+
+                }
             }
-            return BadRequest(result);
+            foreach (var item in results)
+            {
+                if (item.IsSuccess == false)
+                {
+                    return BadRequest(item);
+
+                }
+            }
+            return Ok(results);
         }
         [HttpGet("allcars")]
         public async Task<IActionResult> GetAll()
@@ -40,11 +71,11 @@ namespace HasanFurkanFidan.CarRentalProject.Api.Controllers
         {
             var carResult = await _carService.GetCarByIdAsync(carId);
             var car = carResult.Data;
-            var result =  await _carService.DeleteAsync(car);
+            var result = await _carService.DeleteAsync(car);
             return Ok(result);
         }
         [HttpPost("removelist")]
-        public async Task<IActionResult>RemoveList(CarRemoveRangeIdsModel model)
+        public async Task<IActionResult> RemoveList(CarRemoveRangeIdsModel model)
         {
             List<Car> cars = new List<Car>();
             foreach (var id in model.CarIds)
@@ -54,7 +85,7 @@ namespace HasanFurkanFidan.CarRentalProject.Api.Controllers
                 if (carResult.IsSuccess)
                 {
                     cars.Add(car);
-                }     
+                }
             }
             var result = await _carService.RemoveRangeAsync(cars);
             if (result.IsSuccess)

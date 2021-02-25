@@ -15,5 +15,6 @@ namespace HasanFurkanFidan.CarRentalProject.Entities.Concrete
         public int BrandId { get; set; }
         public Color Color { get; set; }
         public int ColorId { get; set; }
+        public List<CarImage> CarImages { get; set; }
     }
 }
