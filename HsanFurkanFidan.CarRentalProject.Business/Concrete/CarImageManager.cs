@@ -13,46 +13,46 @@ namespace HsanFurkanFidan.CarRentalProject.Business.Concrete
     public class CarImageManager : ICarImageService
     {
         private readonly ICarImageRepository _carImageRepository;
-        private readonly ICarService _carService;
-        public CarImageManager(ICarImageRepository carImageRepository,ICarService carService)
+        public CarImageManager(ICarImageRepository carImageRepository)
         {
+
             _carImageRepository = carImageRepository;
-            _carService = carService;
-        }
-        public IDataResult<List<CarImage>> GetAll()
-        {
-            return new SuccessDataResult<List<CarImage>>(_carImageRepository.GetList(null).Result);
         }
 
-        public IDataResult<List<CarImage>> GetListByCarId(int carId)
+        public async Task<IResult> AddImageAsync(CarImage carImage)
         {
-            return new SuccessDataResult<List<CarImage>>(_carImageRepository.GetList(p => p.CarId == carId).Result);
-        }
-        public IResult AddImages(CarImage carImage)
-        {
-            var result =  BusinessRule.Run(ImageLimit(carImage).Result);
-            if (result.IsSuccess)
+            var result = BusinessRule.Run(await MoreThanFiveImageRule(carImage.CarId));
+            if (result==null)
             {
-                _carImageRepository.AddAsync(carImage).Wait();
-                return new SuccessResult()
-                {
-                    Message = "Başarılı"
-                };
+                return new SuccessResult("Ekleme işlemi başarılı");
             }
-            return new ErrorResult();
+            return new ErrorResult(result.Message);
         }
-        public async Task<IResult> ImageLimit(CarImage carImage)
+
+        public Task<IDataResult<List<CarImage>>> GetAllAsync()
         {
-            var car = await _carService.GetCarByIdAsync(carImage.CarId);
-            var carImages = GetListByCarId(car.Data.Id);
-            if (carImages.Data.Count>0)
+            throw new NotImplementedException();
+        }
+
+        public async Task<IDataResult<List<CarImage>>> GetImagesWithCarId(int carId)
+        {
+            var data = await _carImageRepository.GetList(p => p.CarId == carId);
+            return new SuccessDataResult<List<CarImage>>(data);
+        }
+
+        public Task<IDataResult<List<CarImage>>> GetListByCarIdAsync(int carId)
+        {
+            throw new NotImplementedException();
+        }
+        private async Task<IResult> MoreThanFiveImageRule(int carId)
+        {
+            var data = await GetImagesWithCarId(carId);
+            if (data.Data.Count > 5)
             {
-                return new ErrorResult()
-                {
-                    Message = "5 resimden fazla resim koymak yasaktır"
-                };
+                return new ErrorResult("Hata");
             }
             return new SuccessResult();
         }
+
     }
 }

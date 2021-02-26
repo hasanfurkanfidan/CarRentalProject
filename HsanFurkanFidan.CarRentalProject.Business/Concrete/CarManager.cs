@@ -15,11 +15,9 @@ namespace HsanFurkanFidan.CarRentalProject.Business.Concrete
     public class CarManager : ICarService
     {
         private readonly ICarRepository _carRepository;
-        private readonly ICarImageService _carImageService;
         public CarManager(ICarRepository carRepository,ICarImageService carImageService)
         {
             _carRepository = carRepository;
-            _carImageService = carImageService;
         }
         [ValidationAspect(typeof(CarValidator))]
         public async Task< IDataResult<Car>> AddCarAsync(Car car)

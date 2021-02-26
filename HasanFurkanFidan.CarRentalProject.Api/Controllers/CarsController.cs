@@ -24,41 +24,35 @@ namespace HasanFurkanFidan.CarRentalProject.Api.Controllers
             _carService = carService;
         }
         [HttpPost("add")]
-        public async Task<IActionResult> Add([FromForm] AddCarDto addCarDto)
-        {
-
-            var results = new List<IResult>();
-            var carResult = await _carService.AddCarAsync(new Car()
+        public async Task<IActionResult> Add(AddCarDto addCarDto)
+        { 
+            var car = new Car()
             {
                 BrandId = addCarDto.BrandId,
                 ColorId = addCarDto.ColorId,
                 DailyPrice = addCarDto.DailyPrice,
+                ModelYear = addCarDto.ModelYear,
                 Description = addCarDto.Description,
-            });
-            results.Add(carResult);
-            if (addCarDto.Images.Count > 0)
+            };
+            var carResult = await _carService.AddCarAsync(car);
+            if (carResult.IsSuccess)
             {
-                foreach (var image in addCarDto.Images)
+                var carImageResult = await _carImageService.AddImageAsync(new CarImage()
                 {
-                    var pathStream = AddImage(image);
-                    var imageResult = _carImageService.AddImages(new CarImage()
-                    {
-                        CarId = carResult.Data.Id,
-                        ImagePath = pathStream.Path
-                    });
-                    results.Add(imageResult);
-
+                    CarId = car.Id,
+                    ImagePath = "/img/Car/index.jpg"
+                });
+                if (carImageResult.IsSuccess)
+                {
+                    return Ok(new SuccessResult() { Message = "Ekleme işlemi başarılı" });
+                }
+                else
+                {
+                    return BadRequest(new ErrorResult() { Message = "Resim eklerken hata oluştu" });
                 }
             }
-            foreach (var item in results)
-            {
-                if (item.IsSuccess == false)
-                {
-                    return BadRequest(item);
+            return Ok(carResult);
 
-                }
-            }
-            return Ok(results);
         }
         [HttpGet("allcars")]
         public async Task<IActionResult> GetAll()

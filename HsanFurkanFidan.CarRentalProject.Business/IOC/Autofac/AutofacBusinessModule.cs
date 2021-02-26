@@ -16,12 +16,14 @@ namespace HsanFurkanFidan.CarRentalProject.Business.IOC.Autofac
     {
         protected override void Load(ContainerBuilder builder)
         {
-            builder.RegisterType<CarManager>().As<ICarService>();
             builder.RegisterType<CarRepository>().As<ICarRepository>();
+            builder.RegisterType<CarManager>().As<ICarService>();
+
             builder.RegisterType<BrandRepository>().As<IBrandRepository>();
             builder.RegisterType<ColorRepository>().As<IColorRepository>();
-            builder.RegisterType<CarImageRepository>().As<ICarImageRepository>();
             builder.RegisterType<CarImageManager>().As<ICarImageService>();
+
+            builder.RegisterType<CarImageRepository>().As<ICarImageRepository>();
 
             var assembly = System.Reflection.Assembly.GetExecutingAssembly();
 

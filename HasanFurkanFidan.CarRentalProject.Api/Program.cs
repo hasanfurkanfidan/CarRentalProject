@@ -29,8 +29,7 @@ namespace HasanFurkanFidan.CarRentalProject.Api
                 })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseStartup<Startup>();
+                    webBuilder.UseStartup<Startup>().UseUrls("http://localhost:63650"); 
                 });
-
     }
 }
